@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blog</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div id="sidebar">
+        <p><%= link_to "Blog", root_path %></p>
+    </div>
+
+    <div id="main_content">
+      <div id="header">
+        <% if current_page?(root_path) %>
+        <p>All Posts</p>
+        <% else %>
+          <%= link_to "Back to all posts", root_path %>
+        <% end %>
+
+    
+        <div class="buttons">
+          <button class="button"><%= link_to "New Post", new_post_path %></button><br>   
+        </div>  
+
+      <div class="test">
+      =========================================<br>
+      Form tag:
+      - can accept two arguments
+      -path: string, hash of URL parameters
+
+        <%= form_tag(root_path) do %>
+
+        <%= label_tag 'session_email', 'Email' %>
+        <%= text_field_tag 'session[email]' %>
+
+        <%= label_tag 'session_password', 'Password' %>
+        <%= password_field_tag 'session[password]' %>
+
+        <%= submit_tag "Sign in", class: "btn btn-large btn-primary" %>
+        <% end -%>
+          HTML: 
+        <form accept-charset="UTF-8" action="/" method="post">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input name="authenticity_token" type="hidden" value="J7CBxfHalt49OSHp27hblqK20c9PgwJ108nDHX/8Cts=" />
+        </form>
+        =========================================<br>
+        SEARCH FORM:
+            <%= form_tag("/search", method: "get") do %>
+            <%= label_tag(:q, "Search for:") %>
+            <%= text_field_tag(:q) %>
+            <%= submit_tag("Search") %>
+            <% end %>
+
+                **** always use get methods for search forms *****
+                It allows users to bookmark a specific search
+          HTML: 
+          <form accept-charset="UTF-8" action="/search" method="get">
+            <input name="utf8" type="hidden" value="&#x2713;" />
+            <label for="q">Search for:</label>
+            <input id="q" name="q" type="text" />
+            <input name="commit" type="submit" value="Search" />
+          </form>
+        =========================================<br>
+        Helpers for forms: <br>
+
+        Check box: can choose more than one <br>
+          <%= check_box_tag(:pet_dog) %>
+          <%= label_tag(:pet_dog, "I own a dog") %>
+          <%= check_box_tag(:pet_cat) %>
+          <%= label_tag(:pet_cat, "I own a cat") %><br>
+
+          HTML: 
+          <input id="pet_dog" name="pet_dog" type="checkbox" value="1" />
+          <label for="pet_dog">I own a dog</label>
+          <input id="pet_cat" name="pet_cat" type="checkbox" value="1" />
+          <label for="pet_cat">I own a cat</label><br>
+
+        =========================================<br>
+        Radio Buttons:<br>
+        -like a check box but are mutually exclusive
+
+          <%= radio_button_tag(:age, "child") %>
+          <%= label_tag(:age_child, "I am younger than 21") %>
+          <%= radio_button_tag(:age, "adult") %>
+          <%= label_tag(:age_adult, "I'm over 21") %><br>
+          
+          HTML:
+
+          <input id="age_child" name="age" type="radio" value="child" />
+          <label for="age_child">I am younger than 21</label>
+          <input id="age_adult" name="age" type="radio" value="adult" />
+          <label for="age_adult">I'm over 21</label><br>
+        =========================================<br>
+          -All HTML5 controls <br>
+          text_area_tag: <%= text_area_tag(:message, "Hi, nice site", size: "24x6") %><br><br><br>
+          password_field_tag: <%= password_field_tag(:password) %><br><br><br>
+          hidden_field_tag :<%= hidden_field_tag(:parent_id, "5") %><br><br><br>
+          search_field :<%= search_field(:user, :name) %><br><br><br>
+          telephone_field: <%= telephone_field(:user, :phone) %><br><br><br>
+          date_field: <%= date_field(:user, :born_on) %><br><br><br>
+          datetime_local_field: <%= datetime_local_field(:user, :graduation_day) %><br><br><br>
+          month_field: <%= month_field(:user, :birthday_month) %><br><br><br>
+          week_field: <%= week_field(:user, :birthday_week) %><br><br><br>
+          url_field: <%= url_field(:user, :homepage) %><br><br><br>
+          email_field: <%= email_field(:user, :address) %><br><br><br>
+          color_field: <%= color_field(:user, :favorite_color) %><br><br><br>
+          time_field: <%= time_field(:task, :started_at) %><br><br><br>
+          number_field: <%= number_field(:product, :price, in: 1.0..20.0, step: 0.5) %><br>
+          -can set the range of how much you want to step up in number field <br><br><br>
+          range_field: <%= range_field(:product, :discount, in: 1..100) %><br><br><br>
+        =========================================<br>
+    </div>  
+      </div>
+      <% flash.each do |name, msg| %>
+      <%= content_tag(:div, msg, class: "alert") %>
+      <% end %>
+    <%= yield %>
+    </div>
+  </body>
+</html>
